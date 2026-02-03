@@ -4,6 +4,7 @@ $calendar-gap: 1px;
 $columns: 7;
 $bg-hov: #ffbfcb;
 $padding: 10px;
+$calendar-width: ($day-size * $columns) + ($calendar-gap * ($columns - 1)) + ($padding * 2);
 
 body {
   display: flex;
@@ -24,12 +25,14 @@ $index: 0;
 }
 
 // ==================== Month-Length модифікатори ====================
-$month-length: 31;
-
-@for $i from 1 through 31 {
-  .calendar--month-length-#{$month-length} .calendar__day:nth-child(#{$i}) {
-    @if $i > $month-length {
-      display: none;
+@each $len in (28, 29, 30, 31) {
+  .calendar--month-length-#{$len} {
+    @for $i from 1 through 31 {
+      .calendar__day:nth-child(#{$i}) {
+        @if $i > $len {
+          display: none;
+        }
+      }
     }
   }
 }
@@ -47,7 +50,7 @@ $month-length: 31;
   gap: $calendar-gap;
   padding: $padding;
 
-  width: calc($day-size * 7) + (($calendar-gap * ($columns - 1)) + ($padding * 2));
+ width: $calendar-width;
 
   &__day {
     display: flex;
